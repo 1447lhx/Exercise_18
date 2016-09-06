@@ -11,11 +11,19 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="cn.edu.bistu.cs.cnse.edu.bistu.cs.se.file.MainActivity"
     tools:showIn="@layout/activity_main">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="File"
+        android:id="@+id/textView" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Read"
-        android:id="@+id/btn_read"/>
+        android:id="@+id/btn_read"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="43dp" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

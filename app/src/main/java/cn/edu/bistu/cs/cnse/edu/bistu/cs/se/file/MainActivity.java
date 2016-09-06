@@ -1,6 +1,7 @@
 package cn.edu.bistu.cs.cnse.edu.bistu.cs.se.file;
 
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -22,7 +23,7 @@ import java.io.OutputStream;
  import java.nio.charset.StandardCharsets;
 
 public class MainActivity extends AppCompatActivity {
-    private final static String FileName = "InnerFile";
+    private final static String FileName = "myFile";
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,28 +35,28 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 InputStream in=null;
                 try {
-                    FileInputStream fileInputStream = openFileInput(FileName);
-                    in=new BufferedInputStream(fileInputStream);
-
-                    int c;
-                    StringBuilder stringBuilder=new StringBuilder("");
-                    try{
-                        while ((c=in.read())!=-1) {
-                            stringBuilder.append((char)c);
+                    if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+                        File file = Environment.getExternalStorageDirectory();
+                        File myFile = new File(file.getCanonicalPath() + "/" + FileName);
+                        FileInputStream fileInputStream = new FileInputStream(myFile);
+                        in = new BufferedInputStream(fileInputStream);
+                        int c;
+                        StringBuilder stringBuilder = new StringBuilder("");
+                        try {
+                            while ((c = in.read()) != -1) {
+                                stringBuilder.append((char) c);
+                            }
+                            Toast.makeText(MainActivity.this, stringBuilder.toString(), Toast.LENGTH_LONG).show();
+                        } finally {
+                            if (in != null)
+                                in.close();
                         }
-                        Toast.makeText(MainActivity.this,stringBuilder.toString(),Toast.LENGTH_LONG).show();
-                    }
-                    finally {
-                        if(in!=null)
-                            in.close();
+                    }}
+                    catch(Exception e){
+                        e.printStackTrace();
                     }
                 }
-                catch (Exception e){
-                    e.printStackTrace();
-                }
 
-
-            }
         });
         write.setOnClickListener(new View.OnClickListener() {
             @Override
